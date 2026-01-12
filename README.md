@@ -45,4 +45,4 @@ Contributions are welcome! If you'd like to help improve Instax Link Web or add 
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE), as was the original [Instax Link Web](https://github.com/linssenste/instax-link-web) repository at time of forking [here](https://github.com/linssenste/instax-link-web/blob/3e9977a57d24b797ee99c125f97959e44759dc5e/README.md#license).
