@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { isNativePlatform } from '../../api/bluetooth';
 
 import QueueElement from '../printer/QueueElement.vue'
 import StatusAlerts from '../printer/StatusAlerts.vue'
@@ -56,7 +57,6 @@ declare global {
 	interface Navigator {
 		bluetooth?: {
 			getAvailability(): Promise<boolean>;
-			// Add other Bluetooth API methods here if needed
 		};
 	}
 }
@@ -64,8 +64,13 @@ declare global {
 const hasBluetoothAccess = ref(true);
 
 onMounted(() => {
-
 	console.log('PrinterConnection mounted');
+
+	if (isNativePlatform()) {
+		hasBluetoothAccess.value = true;
+		return;
+	}
+
 	console.log(navigator.bluetooth)
 	try {
 		if (!navigator.bluetooth) {
@@ -73,7 +78,6 @@ onMounted(() => {
 			hasBluetoothAccess.value = false;
 			return;
 		}
-		// check bluetooth access
 		navigator.bluetooth?.getAvailability()?.then(available => {
 			if (available) {
 				hasBluetoothAccess.value = true;
@@ -83,8 +87,6 @@ onMounted(() => {
 		console.error('Bluetooth API not supported:', error);
 		hasBluetoothAccess.value = false
 	}
-
-
 })
 props.config;
 

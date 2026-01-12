@@ -5,12 +5,18 @@
 	"scripts": {
 		"dev": "vite --host",
 		"build": "vite build",
+		"build:ios": "npm run build && npx cap sync ios",
+		"open:ios": "npx cap open ios",
 		"test:unit": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
 		"format": "prettier .  --write"
 	},
 	"dependencies": {
+		"@capacitor-community/bluetooth-le": "^7.3.0",
+		"@capacitor/cli": "^8.0.0",
+		"@capacitor/core": "^8.0.0",
+		"@capacitor/ios": "^8.0.0",
 		"buffer": "^6.0.3",
 		"compressorjs": "^1.2.1",
 		"konva": "^9.3.14",

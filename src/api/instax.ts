@@ -4,6 +4,7 @@ import { parse } from './instax.parser'
 import { Buffer } from 'buffer'
 import { encodeColor } from './instax.color'
 import { InstaxFilmVariant } from '../interfaces/PrinterStateConfig'
+import type { BluetoothNotificationEvent } from './bluetooth'
 
 
 
@@ -37,7 +38,7 @@ export class InstaxPrinter extends InstaxBluetooth {
 		console.log('>', this._printableHex(instaxCommandData))
 
 		const response = await this.send(instaxCommandData, awaitResponse)
-		return this._decode(response as Event)
+		return this._decode(response as BluetoothNotificationEvent)
 	}
 
 
@@ -204,7 +205,7 @@ export class InstaxPrinter extends InstaxBluetooth {
 						const response = await this.send(splitChunk, isPacketEnd)
 
 
-						if (isPacketEnd) console.log(this._decode(response as Event).status)
+						if (isPacketEnd) console.log(this._decode(response as BluetoothNotificationEvent).status)
 						if (isPacketEnd == true &&
 							response == null) {
 							throw new Error()
@@ -331,9 +332,9 @@ export class InstaxPrinter extends InstaxBluetooth {
 		return imgDataChunks
 	}
 
-	private _decode(event: Event): any {
-		if (event == null || event.target == null) return
-		const packet = Array.from(new Uint8Array((event.target as any).value.buffer))
+	private _decode(event: BluetoothNotificationEvent): any {
+		if (event == null || event.value == null) return
+		const packet = Array.from(new Uint8Array(event.value.buffer))
 
 		// Validate the packet length and checksum
 		const packetLength = (packet[2] << 8) | packet[3]

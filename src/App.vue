@@ -121,21 +121,16 @@ async function disconnectBluetoothPrinter(): Promise<void> {
 
 }
 async function connectBluetoothPrinter(): Promise<void> {
-
-
 	try {
 		printer = new InstaxPrinter();
+		printer.setDisconnectCallback(clearConnection);
 
 		const device = await printer.connect();
-		if (!device) return; // cancelled connection
+		if (!device) return;
 
 		config.value.connection = true;
 
-		// listener on disconnect event
-		device.addEventListener('gattserverdisconnected', clearConnection);
-
-
-		await new Promise((r) => setTimeout(r, 150)) // await connection setup
+		await new Promise((r) => setTimeout(r, 150))
 
 		loadMetaData();
 
@@ -146,7 +141,6 @@ async function connectBluetoothPrinter(): Promise<void> {
 	} catch (error) {
 		clearConnection()
 	}
-
 }
 
 function clearConnection(): void {
