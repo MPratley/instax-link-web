@@ -131,7 +131,7 @@ function removeImageEvent(index: number): void {
 
 .connected-printer {
 	position: relative;
-	padding-top: env(safe-area-inset-top, 0px);
+  padding-top: env(safe-area-inset-top, 25px);
 }
 
 .printer-connection {
