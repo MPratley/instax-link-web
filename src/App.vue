@@ -121,11 +121,15 @@ async function disconnectBluetoothPrinter(): Promise<void> {
 
 }
 async function connectBluetoothPrinter(): Promise<void> {
+	console.log('> connectBluetoothPrinter called')
 	try {
 		printer = new InstaxPrinter();
 		printer.setDisconnectCallback(clearConnection);
 
+		console.log('> Calling printer.connect()...')
 		const device = await printer.connect();
+		console.log('> printer.connect() returned:', device)
+
 		if (!device) return;
 
 		config.value.connection = true;
@@ -139,6 +143,7 @@ async function connectBluetoothPrinter(): Promise<void> {
 		}, 1500);
 
 	} catch (error) {
+		console.error('> connectBluetoothPrinter error:', error)
 		clearConnection()
 	}
 }

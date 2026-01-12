@@ -125,12 +125,13 @@ function removeImageEvent(index: number): void {
 .printing-queue {
 	position: relative;
 	width: 100%;
-	height: calc(100vh - 130px);
+	height: calc(100vh - 130px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
 	overflow: scroll;
 }
 
 .connected-printer {
 	position: relative;
+	padding-top: env(safe-area-inset-top, 0px);
 }
 
 .printer-connection {

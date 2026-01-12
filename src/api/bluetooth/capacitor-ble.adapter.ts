@@ -13,14 +13,18 @@ export class CapacitorBleAdapter extends BluetoothAdapter {
   async connect(): Promise<BluetoothDeviceHandle | false> {
     try {
       if (!this.initialized) {
+        console.log('> Initializing BLE client...')
         await BleClient.initialize()
         this.initialized = true
+        console.log('> BLE client initialized')
       }
 
+      console.log('> Requesting device...')
       const device = await BleClient.requestDevice({
         namePrefix: INSTAX_PRINTER_NAME_PREFIX,
         optionalServices: INSTAX_PRINTER_SERVICES
       })
+      console.log('> Device selected:', device)
 
       this.deviceId = device.deviceId
 
@@ -62,6 +66,7 @@ export class CapacitorBleAdapter extends BluetoothAdapter {
         platform: 'capacitor'
       }
     } catch (error) {
+      console.error('> BLE connect error:', error)
       this.deviceId = null
       this.writeCharUuid = null
       this.notifyCharUuid = null
